@@ -1,0 +1,14 @@
+.TodoList {
+  background-color: white;
+  margin: 4vmin;
+  border-radius: 8px;
+  height: 56vh;
+  overflow: hidden;
+}
+
+.TodoList-main {
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
+  height: 100%;
+}
