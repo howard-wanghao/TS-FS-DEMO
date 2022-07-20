@@ -1,0 +1,19 @@
+.Todo {
+  margin: 2vmin;
+  padding: 2vmin;
+  flex: auto;
+  border: 1px solid #282c34;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  min-height: 8vmin;
+}
+
+.Todo-item {
+  margin: 0 2vmin;
+  text-align: left;
+}
+
+.Todo-tag {
+  margin: 0 2vmin;
+}
