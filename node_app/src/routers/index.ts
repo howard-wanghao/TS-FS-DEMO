@@ -1,4 +1,5 @@
 import TodoController from '../controller/todo';
+import TagController from '../controller/tag';
 
 export interface RouteItem {
   path: string,
@@ -30,5 +31,18 @@ export const AppRoutes: RouteItem[] = [
     path: '/todo/del',
     method: 'post',
     action: TodoController.del,
+  },
+  // 修改Todo的tag
+  {
+    path: '/todo/editTag',
+    method: 'post',
+    action: TodoController.editTag,
+  },
+
+  // 查询Tag列表
+  {
+    path: '/tag/list',
+    method: 'get',
+    action: TagController.list,
   },
 ];

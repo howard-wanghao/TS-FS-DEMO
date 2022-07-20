@@ -84,6 +84,37 @@ class TodoController {
       };
     }
   }
+
+  // 修改tag标签
+  async editTag(ctx: Context) {
+    const { id, tags } = ctx.request.body;
+    if (id) {
+      const todoRepository = AppDataSource.getRepository(Todo);
+      const tagRepository = AppDataSource.getRepository(Tag);
+      const findTodo = await todoRepository.findOneBy({
+        id,
+      });
+      if (!tags.length) {
+        findTodo.tags = [];
+      } else {
+        const findTags= await tagRepository.find({
+          where: tags.map(id => { return { id } }),
+        });
+        findTodo.tags = findTags;
+      }
+      await todoRepository.save(findTodo);
+
+      ctx.body = {
+        status: 'SUCCESS',
+        message: '修改成功',
+      };
+    } else {
+      ctx.body = {
+        status: 'FAIL',
+        message: '修改失败',
+      };
+    }
+  }
 }
 
 export default new TodoController();
