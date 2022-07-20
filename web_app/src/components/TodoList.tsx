@@ -6,9 +6,17 @@ import './TodoList.css';
 
 import { Todo } from './Todo';
 import { TodoStore } from '../mst/store';
+import request from '../api/index';
+
+interface ITag {
+  id: number;
+  name: string;
+  todos?: any[];
+}
 
 class TodoList extends React.Component<any, any> {
   newTodoValue: string;
+  tagList: ITag[];
   store: any;
 
   constructor(props: any) {
@@ -16,18 +24,21 @@ class TodoList extends React.Component<any, any> {
 
     makeObservable(this, {
       newTodoValue: observable,
+      tagList: observable,
     });
     this.newTodoValue = '';
+    this.tagList = [];
   }
 
   componentDidMount() {
     this.store = TodoStore.create({ todos: [] })
     // async actions will always return a promise resolving to the returned value
-    this.store.getData().then(() => {
-      console.log("done")
-    })
+    // this.store.getData().then(() => {
+    //   console.log("done")
+    // })
 
     // 获取标签
+    this.getTagList();
   }
 
   render() {
@@ -38,7 +49,7 @@ class TodoList extends React.Component<any, any> {
         <div className="TodoList-main">
           {/* todo列表 */}
           {this.store ? this.store.todos.map((todo: any) => 
-            <Todo todo={todo} key={todo.id}/>
+            <Todo todo={todo} tagList={this.tagList} getTodoList={() => this.getTodoList()} key={todo.id}/>
           ) : null}
           {/* 占位 */}
           <div style={{ padding: '2vmin', margin: '2vmin' }} />
@@ -50,7 +61,7 @@ class TodoList extends React.Component<any, any> {
   // 新增输入框回调
   handleChange = (e: any) => {
     this.newTodoValue = e.target.value;
-  }
+  };
 
   // 新增
   handleNewTodoClick = (e: any) => {
@@ -58,6 +69,20 @@ class TodoList extends React.Component<any, any> {
 
     this.store.addTodo(this.newTodoValue);
     this.newTodoValue = '';
+  };
+
+  // 获取tag列表
+  getTagList = () => {
+    request.get!('/tag/list', {}).then((res) => {
+      this.tagList = res.data.list;
+    }).catch((err) => {
+      console.log(err.message);
+    });
+  };
+
+  // 刷新todo列表
+  getTodoList = () => {
+    this.store.getData();
   }
 }
 

@@ -16,4 +16,13 @@
 
 .Todo-tag {
   margin: 0 2vmin;
+  display: flex;
+}
+
+.Todo-tag-edit {
+  margin: 0 2vmin;
+  padding: 2vmin;
+  display: flex;
+  border: 1px solid #282c34;
+  border-radius: 8px;
 }
